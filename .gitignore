@@ -1,3 +1,11 @@
+# Not-yet finished implementations
+hog-svm/
+
+# Datasets and results
+data/
+results/
+
+# VSCode configurations
 .vscode/
 
 # Byte-compiled / optimized / DLL files
