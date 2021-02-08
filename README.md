@@ -3,7 +3,7 @@ This repository implements maritime surveillance ship detection based on the hor
 
 # Implemented Methods
 ## Horizon Detection
-
+* MSCM-LiFe (https://www.doi.org/10.1109/TENCON.2016.7848237)
 ## Background Subtraction
 
 ## Foreground Segamentation
