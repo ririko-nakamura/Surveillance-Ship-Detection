@@ -5,6 +5,9 @@ hog-svm/
 data/
 results/
 
+# Pybgs configurations
+/config/
+
 # VSCode configurations
 .vscode/
 
