@@ -10,7 +10,17 @@ from pipeline.background_subtraction.GMM import GMM_BGS
 
 dataset = sys.argv[1]
 
-train_videos = []
+train_videos = [
+    "MVI_1448_VIS_Haze.avi",
+    "MVI_1474_VIS.avi",
+    "MVI_1484_VIS.avi",
+    "MVI_1486_VIS.avi",
+    "MVI_1582_VIS.avi",
+    "MVI_1612_VIS.avi",
+    "MVI_1626_VIS.avi",
+    "MVI_1627_VIS.avi",
+    "MVI_1640_VIS.avi"
+]
 
 model = GMM_BGS(n_components=15)
 

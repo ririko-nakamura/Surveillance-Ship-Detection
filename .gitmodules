@@ -1,0 +1,4 @@
+[submodule "HOG-SVM-python"]
+	path = HOG-SVM-python
+	url = https://github.com/ririko-nakamura/HOG-SVM-python.git
+	branch = smd-ship-detection
