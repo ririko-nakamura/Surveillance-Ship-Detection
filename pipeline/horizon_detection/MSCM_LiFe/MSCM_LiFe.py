@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 
 sys.path.append('C:/Workspace/Surveillance-Ship-Detection/pipeline/horizon-detection')
-from ..helpers.horizon import Horizon
+from ...general import Horizon
 
 class HorizonDetector:
 
