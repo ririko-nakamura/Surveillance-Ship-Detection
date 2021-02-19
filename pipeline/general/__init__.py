@@ -1,2 +1,2 @@
-from ...general import bbox
+from helpers import bbox
 from .horizon import Horizon

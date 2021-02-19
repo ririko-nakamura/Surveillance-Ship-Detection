@@ -1,17 +1,17 @@
-import sys
 import math
 import threading
 
 import cv2
 import numpy as np
 
-sys.path.append('C:/Workspace/Surveillance-Ship-Detection/pipeline/horizon-detection')
-from ...general import Horizon
+from .IVA import IVAHorizonDetector
+from ..general import Horizon
 
-class HorizonDetector:
+class MSCMLiFeHorizonDetector:
 
     def __init__(self, scales):
         self.scales = scales
+        self.IVADetector = IVAHorizonDetector()
 
     def detect(self, inputImage):
         filteredImages = self.filterMultiscaleImages(inputImage)
@@ -32,7 +32,7 @@ class HorizonDetector:
                 houghScores.append(lines[i, 0, 2])
                 #houghCandidates[-1].render(visiblization, 255)
             # Calculate IVA candidates
-            line, score = self.IVAHorizonDetection(filteredImages[s])
+            line, score = self.IVADetector.detect(filteredImages[s])
             IVACandidates.append(line)
             IVAScores.append(score)
             #line.render(visiblization, 0)
@@ -92,28 +92,6 @@ class HorizonDetector:
             filteredImage = medianBlur(inputImage, [2*s, 0])
             filteredImages.append(filteredImage)
         return filteredImages
-    
-    def IVAHorizonDetection(self, inputImage):
-        # Array of (x, y'(x))
-        maxVaritionPoints = []
-        totalVarition = 0
-        for x in range(inputImage.shape[1]):
-            maxVarition = -1
-            maxVaritionY = -1
-            for y in range(1, inputImage.shape[0]):
-                varition = abs(int(inputImage[y, x]) - int(inputImage[y-1, x]))
-                if varition > maxVarition:
-                    maxVarition = varition
-                    maxVaritionY = y
-                totalVarition = totalVarition + varition
-            maxVaritionPoints.append((x, maxVaritionY))
-
-        horizonLine = cv2.fitLine(np.array(maxVaritionPoints), cv2.DIST_L2, 0, 0.01, 0.01)
-        point = (int(horizonLine[2, 0]), int(horizonLine[3, 0]))
-        k = - horizonLine[1, 0] / horizonLine[0, 0]
-        horizonLine = Horizon(Horizon.POINT_K, (point, k))
-
-        return horizonLine, totalVarition / inputImage.shape[1] / (inputImage.shape[0] - 1)
 
     @staticmethod
     def evaluateDetectionPair(n, s, Hn, Ss, maxX, maxY):

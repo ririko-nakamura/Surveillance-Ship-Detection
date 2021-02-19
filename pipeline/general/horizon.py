@@ -37,6 +37,15 @@ class Horizon:
             return
         cv2.line(img, A, B, color)
 
+    def checkSuppress(self, det):
+        Ay = self.y(det.min_x)
+        if Ay >= det.min_y and Ay <= det.max_y:
+            return False
+        By = self.y(det.max_x)
+        if By >= det.min_y and By <= det.max_y:
+            return False
+        return True
+
     def toYAlpha(self, maxX):
         return(self.y(maxX // 2), -math.atan(self.k))
 
