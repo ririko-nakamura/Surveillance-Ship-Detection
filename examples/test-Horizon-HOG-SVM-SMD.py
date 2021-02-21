@@ -14,7 +14,7 @@ horizon_detector = IVAHorizonDetector()
 clf = joblib.load("./HOG-SVM-python/data/models/svm.model")
 
 # Preparation: load dataset.
-dataset = sys.argv[1]
+dataset = os.path.join(sys.argv[1], 'test')
 test_imgs = os.listdir(dataset)
 test_imgs.sort(key= lambda x:int(x[:-4]))
 
@@ -32,6 +32,7 @@ for img_fname in test_imgs:
     detections = nms(detect(clf, img))
     for (x_tl, y_tl, _, w, h) in detections:
         if not horizon_det.checkSuppress(bbox((x_tl, y_tl, w, h))):
+        #if not similaritySuppress
             cv.rectangle(img, (x_tl, y_tl), (x_tl+w,y_tl+h), (0, 0, 0), thickness=2)
         else:
             cv.rectangle(img, (x_tl, y_tl), (x_tl+w,y_tl+h), (255, 0, 0), thickness=2)
@@ -41,4 +42,7 @@ for img_fname in test_imgs:
     #cv2.waitKey()
     filename, _ = os.path.splitext(img_fname)
     cv2.imwrite('./results/'+filename+"_result.jpg", img)
+
+
+    # 思路：拟合bbox底边的坐标
 

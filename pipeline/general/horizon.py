@@ -1,6 +1,6 @@
 import math
 
-import cv2
+import cv2 as cv
 import numpy as np
 
 # TODO: extend cv2.Line
@@ -35,7 +35,7 @@ class Horizon:
         B = (img.shape[1] - 1, self.y(img.shape[1] - 1))
         if abs(A[1]) > 1e4 or abs(B[1]) > 1e4:
             return
-        cv2.line(img, A, B, color)
+        cv.line(img, A, B, color)
 
     def checkSuppress(self, det):
         Ay = self.y(det.min_x)
@@ -58,5 +58,5 @@ if __name__ == "__main__":
     l1.render(img)
     l2.render(img)
     l3.render(img)
-    cv2.imshow("debug", img)
-    cv2.waitKey()
+    cv.imshow("debug", img)
+    cv.waitKey()

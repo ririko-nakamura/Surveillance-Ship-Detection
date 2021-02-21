@@ -9,7 +9,7 @@ class GMM_BGS(BackgroundSubtractorBase):
 
     def __init__(self, saved_model=None, n_components=8):
         if saved_model is None:
-            self.model = GaussianMixture(n_components)
+            self.model = GaussianMixture(n_components, verbose=2)
         else:
             with open(saved_model, "rb") as input_file:
                 self.model = pickle.load(input_file)
@@ -17,8 +17,8 @@ class GMM_BGS(BackgroundSubtractorBase):
     def fit(self, dataset):
         bg_elements = []
         for img, bg_mask, _ in dataset:
-            bg_elements.append(img[np.transpose(np.nonzero(bg_mask))])
-        bg_elements = np.hstack(*bg_elements)
+            bg_elements.append(img[np.nonzero(bg_mask)])
+        bg_elements = np.vstack(tuple(bg_elements))
         self.model.fit(bg_elements)
 
     def save_model(self, path):

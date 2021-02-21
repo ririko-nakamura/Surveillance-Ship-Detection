@@ -1,12 +1,10 @@
-# Not-yet finished implementations
-hog-svm/
-
 # Unit tests
 tests/
 
 # Datasets and results
 data/
 result*
+*.model
 
 # Pybgs configurations
 /config/
