@@ -27,10 +27,12 @@ class MSCMLiFeHorizonDetector:
             #visiblization = filteredImages[s].copy()
             edgeMap = cv2.Canny(filteredImages[s], 10, 100)
             lines = cv2.HoughLinesWithAccumulator(edgeMap, 1, np.pi / 100, 100)
-            for i in range(min(10, len(lines))):
-                houghCandidates.append(Horizon(Horizon.ROU_THETA, (lines[i, 0, 0], lines[i, 0, 1])))
-                houghScores.append(lines[i, 0, 2])
-                #houghCandidates[-1].render(visiblization, 255)
+
+            if lines is not None:
+                for i in range(min(10, len(lines))):
+                    houghCandidates.append(Horizon(Horizon.ROU_THETA, (lines[i, 0, 0], lines[i, 0, 1])))
+                    houghScores.append(lines[i, 0, 2])
+                    #houghCandidates[-1].render(visiblization, 255)
             # Calculate IVA candidates
             line, score = self.IVADetector.detect(filteredImages[s])
             IVACandidates.append(line)
@@ -44,7 +46,7 @@ class MSCMLiFeHorizonDetector:
         bestScore = -1
         for n in range(len(houghCandidates)):
             for s in range(len(IVACandidates)):
-                score = HorizonDetector.evaluateDetectionPair(
+                score = MSCMLiFeHorizonDetector.evaluateDetectionPair(
                     houghCandidates[n],
                     IVACandidates[s], 
                     houghScores[n],
@@ -56,7 +58,7 @@ class MSCMLiFeHorizonDetector:
                     bestDecision = houghCandidates[n]
                     bestScore = score
 
-        return bestDecision
+        return bestDecision, bestScore
 
     # TODO: Optimize median blur algorithm
     def filterMultiscaleImages(self, inputImage):
@@ -88,7 +90,7 @@ class MSCMLiFeHorizonDetector:
 
         # filterMultiscaleImages() procedure
         filteredImages = []
-        for s in range(self.scales):
+        for s in self.scales:
             filteredImage = medianBlur(inputImage, [2*s, 0])
             filteredImages.append(filteredImage)
         return filteredImages

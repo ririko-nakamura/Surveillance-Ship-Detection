@@ -4,13 +4,13 @@ import cv2 as cv
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)) + "/../")
 from helpers import bbox
-from pipeline.horizon_detection.IVA import IVAHorizonDetector
+from pipeline.horizon_detection.MSCMLiFe import MSCMLiFeHorizonDetector
 sys.path.append("HOG-SVM-python")
 from object_detector import *
 
 
 # Preparation: load models.
-horizon_detector = IVAHorizonDetector()
+horizon_detector = MSCMLiFeHorizonDetector(range(4, 10))
 clf = joblib.load("./HOG-SVM-python/data/models/svm.model")
 
 # Preparation: load dataset.
@@ -27,7 +27,6 @@ for img_fname in test_imgs:
         continue
 
     img = cv.imread(os.path.join(dataset, img_fname), cv.IMREAD_GRAYSCALE)
-    blurred_img = cv.medianBlur(img, 11)
     horizon_det, _ = horizon_detector.detect(img)
     detections = nms(detect(clf, img))
     for (x_tl, y_tl, _, w, h) in detections:
@@ -41,7 +40,7 @@ for img_fname in test_imgs:
     #cv2.imshow("Final Detections after applying NMS", clone)
     #cv2.waitKey()
     filename, _ = os.path.splitext(img_fname)
-    cv2.imwrite('./results/'+filename+"_result.jpg", img)
+    cv2.imwrite('./results/'+filename+"_mscm_life_result.jpg", img)
 
 
     # 思路：拟合bbox底边的坐标
