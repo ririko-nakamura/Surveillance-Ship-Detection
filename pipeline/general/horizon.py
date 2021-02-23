@@ -34,8 +34,9 @@ class Horizon:
         A = (0, self.y(0))
         B = (img.shape[1] - 1, self.y(img.shape[1] - 1))
         if abs(A[1]) > 1e4 or abs(B[1]) > 1e4:
-            return
+            return False
         cv.line(img, A, B, color)
+        return True
 
     def checkSuppress(self, det):
         Ay = self.y(det.min_x)

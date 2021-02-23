@@ -43,7 +43,7 @@ class MSCMLiFeHorizonDetector:
 
         # Evaluate each pair of (houghCandidate, IVACandidate)
         bestDecision = None
-        bestScore = -1
+        bestScore = float("-inf")
         for n in range(len(houghCandidates)):
             for s in range(len(IVACandidates)):
                 score = MSCMLiFeHorizonDetector.evaluateDetectionPair(
