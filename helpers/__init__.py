@@ -17,6 +17,24 @@ class bbox:
             self.max_y = -1
             self.min_y = 65535
 
+    def area(self):
+        return (self.max_x - self.min_x) * (self.max_y - self.min_y)
+
+    def union(self, b):
+        min_x = max(self.min_x, b.min_x)
+        max_x = min(self.max_x, b.max_x)
+        min_y = max(self.min_y, b.min_y)
+        max_y = min(self.max_y, b.max_y)
+        w = max_x - min_x
+        h = max_y - min_y
+        if w <= 0 or h <= 0:
+            return None
+        else:
+            return bbox((min_x, min_y, w, h))
+
+    def to_xywh(self):
+        return (self.min_x, self.min_y, self.max_x - self.min_x, self.max_y - self.min_y)
+
     def __str__(self):
         return "[{}, {}, {}, {}]".format(self.min_x, self.min_y, self.max_x, self.max_y)
 

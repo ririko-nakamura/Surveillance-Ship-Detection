@@ -3,7 +3,7 @@ import pickle as pkl
 
 import cv2 as cv
 
-sys.path.append(os.path.abspath(os.path.dirname(__file__)) + "/../")
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from helpers import bbox
 from pipeline.horizon_detection.MSCMLiFe import MSCMLiFeHorizonDetector
 sys.path.append("HOG-SVM-python")
