@@ -45,7 +45,7 @@ for img_fname in test_imgs:
             cv.rectangle(img, (x_tl, y_tl), (x_tl+w,y_tl+h), (0, 0, 0), thickness=2)
         else:
             cv.rectangle(img, (x_tl, y_tl), (x_tl+w,y_tl+h), (255, 0, 0), thickness=2)
-        final_dets.append(det)
+        final_dets.append([x_tl, y_tl, w, h])
     
     filename, _ = os.path.splitext(img_fname)
     cv2.imwrite('./results/'+filename+"_mscm_life_result.jpg", img)
