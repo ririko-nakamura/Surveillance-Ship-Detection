@@ -50,6 +50,24 @@ class Horizon:
     def toYAlpha(self, maxX):
         return(self.y(maxX // 2), -math.atan(self.k))
 
+    def toArray(self, img_shape=(1080, 1920)):
+        x = img_shape[1] // 2
+        y = self.y(x)
+        cos = math.sqrt(1/(1+self.k**2))
+        sin = math.sqrt(1 - cos**2) * self.k / math.fabs(self.k)
+        return [x, y, sin, cos]
+
+    @classmethod
+    def interpolate(cls, m_index, l_index, l_obj, r_index, r_obj, maxX=1920):
+        def linear_interpolate(x, x1, x2, y1, y2):
+            k = (y2 - y1) / (x2 - x1)
+            return y1 + (x - x1)*k
+        l_y, l_alpha = l_obj.toYAlpha(maxX)
+        r_y, r_alpha = r_obj.toYAlpha(maxX)
+        m_y = linear_interpolate(m_index, l_index, r_index, l_y, r_y)
+        m_alpha = linear_interpolate(m_index, l_index, r_index, l_alpha, r_alpha)
+        return Horizon(Horizon.POINT_K, ((maxX//2, m_y), -math.tan(m_alpha)))
+
 if __name__ == "__main__":
     l1 = Horizon(Horizon.ROU_THETA, ((200 + 300 * math.tan(np.pi / 6)) * math.cos(np.pi / 6), np.pi / 3))
     l2 = Horizon(Horizon.POINT_K, ((300, 200), 0.5))

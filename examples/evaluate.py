@@ -125,7 +125,8 @@ if __name__ == "__main__":
 
     precision = 1 - FP / tot_dets
     recall = 1 - FN / tot_gts
-    print("Precision = {0}, Recall = {1}".format(precision, recall))
+    f1 = 2 * precision * recall / (precision + recall)
+    print("Precision = {0}, Recall = {1}, F1 = {2}".format(precision, recall, f1))
 
     
 

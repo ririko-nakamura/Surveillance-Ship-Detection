@@ -2,3 +2,6 @@
 	path = HOG-SVM-python
 	url = https://github.com/ririko-nakamura/HOG-SVM-python.git
 	branch = smd-ship-detection
+[submodule "cvhelpers"]
+	path = cvhelpers
+	url = https://github.com/ririko-nakamura/cvhelpers.git

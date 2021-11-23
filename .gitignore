@@ -5,6 +5,7 @@ tests/
 data/
 result*
 *.model
+*dets.json
 
 # Pybgs configurations
 /config/
